@@ -29,7 +29,7 @@
             padding: 65px 16px 80px 16px; display: flex; flex-direction: column; position: relative; overflow-x: hidden;
         }
 
-        /* Top Bar with Hamburger Menu */
+        /* Top Bar */
         .top-navbar {
             position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px;
             background: #011410; border-bottom: 1px solid var(--card-border); display: flex;
@@ -38,7 +38,7 @@
         .menu-btn { font-size: 20px; color: var(--accent-green); background: none; border: none; cursor: pointer; }
         .app-title-nav { font-size: 16px; font-weight: 700; color: var(--text-main); }
 
-        /* Navigation Drawer (Sidebar) */
+        /* Sidebar */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 2500;
@@ -49,22 +49,18 @@
         .sidebar {
             position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
             background: #011813; border-right: 1px solid var(--card-border); z-index: 3000;
-            transition: 0.3s ease; display: flex; flex-direction: column; padding: 20px 0;
-            overflow-y: auto;
+            transition: 0.3s ease; display: flex; flex-direction: column; padding: 20px 0; overflow-y: auto;
         }
         .sidebar.active { left: 0; }
-
         .sidebar-header { padding: 10px 20px 20px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
         .sidebar-header h3 { color: var(--accent-green); font-size: 18px; }
         .close-sidebar { background: none; border: none; color: var(--text-sub); font-size: 18px; cursor: pointer; }
-
         .sidebar-menu { list-style: none; padding: 10px 0; }
         .menu-item {
             padding: 12px 20px; display: flex; align-items: center; gap: 14px; color: var(--text-main);
             font-size: 14px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03);
         }
         .menu-item i { width: 20px; color: var(--accent-green); font-size: 16px; }
-        .menu-item:hover { background: var(--card-bg); }
 
         /* Bottom Nav */
         .bottom-nav {
@@ -78,7 +74,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Settings Modals / Forms */
+        /* Modals */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); display: flex;
@@ -108,15 +104,36 @@
         .date-title { font-size: 20px; font-weight: bold; }
         .hijri-title { font-size: 14px; color: var(--text-sub); margin-top: 2px; }
         .tracker-banner { background: linear-gradient(135deg, #0a4034, #052b22); border: 1px solid var(--card-border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .prayer-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 25px; padding: 12px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .prayer-left { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; }
-        .prayer-right { display: flex; align-items: center; gap: 12px; }
-        .time-text { font-size: 16px; font-weight: 600; }
+        
+        /* Prayer Card & Status Styles */
+        .prayer-card { 
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; 
+            padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
+            transition: all 0.3s ease;
+        }
+        .prayer-card.active-prayer {
+            border: 2px solid var(--accent-green);
+            background: linear-gradient(135deg, #094234, #052b22);
+            box-shadow: 0 0 12px rgba(0,230,118,0.15);
+        }
+        .prayer-left { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
+        .prayer-right { display: flex; align-items: center; gap: 8px; }
+        .time-text { font-size: 15px; font-weight: 600; }
         .check-btn { width: 22px; height: 22px; border: 2px solid var(--text-sub); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; background: transparent; transition: all 0.2s ease; color: transparent; font-size: 11px; }
         .check-btn.checked { background: var(--accent-green); border-color: var(--accent-green); color: #000; }
-        .sound-btn { background: transparent; border: none; color: var(--text-sub); font-size: 16px; cursor: pointer; }
+        .sound-btn { background: transparent; border: none; color: var(--text-sub); font-size: 15px; cursor: pointer; }
 
-        /* 2. DUA & SURAH (FIXED LAYOUT & TITLES) */
+        /* Badges */
+        .badge-now {
+            background: #ffffff; color: #000000; font-size: 11px; font-weight: 700;
+            padding: 3px 8px; border-radius: 6px; display: none; align-items: center; gap: 4px;
+        }
+        .badge-countdown {
+            background: rgba(255, 255, 255, 0.12); color: #90c2b6; font-size: 11px; font-weight: 600;
+            padding: 3px 8px; border-radius: 6px; display: none;
+        }
+
+        /* 2. DUA & SURAH */
         .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .top-header h2 { font-size: 20px; color: var(--accent-green); font-weight: 700; }
         .main-tabs { display: flex; background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 4px; margin-bottom: 20px; border: 1px solid var(--card-border); }
@@ -126,9 +143,9 @@
         .sub-content-view.active { display: block; }
         .dua-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px; margin-bottom: 16px; overflow: hidden; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .card-title { font-size: 17px; font-weight: 700; color: var(--accent-green) !important; display: block !important; }
-        .arabic-text { font-family: 'Amiri', serif; font-size: 22px; text-align: right; color: var(--gold); line-height: 2.2; margin-bottom: 14px; direction: rtl; word-break: break-word; }
-        .transliteration, .translation { font-size: 13px; margin-bottom: 8px; line-height: 1.6; color: var(--text-sub); word-break: break-word; white-space: normal; }
+        .card-title { font-size: 17px; font-weight: 700; color: var(--accent-green) !important; }
+        .arabic-text { font-family: 'Amiri', serif; font-size: 22px; text-align: right; color: var(--gold); line-height: 2.2; margin-bottom: 14px; direction: rtl; }
+        .transliteration, .translation { font-size: 13px; margin-bottom: 8px; line-height: 1.6; color: var(--text-sub); }
         .translation { color: var(--text-main); margin-bottom: 16px; }
         .card-actions { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
         .action-btn { background: transparent; border: none; color: var(--text-sub); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
@@ -138,9 +155,12 @@
         .location-info { font-size: 12px; color: var(--text-sub); margin-top: 6px; display: flex; align-items: center; gap: 6px; background: rgba(0, 230, 118, 0.1); padding: 6px 14px; border-radius: 20px; }
         .compass-wrapper { position: relative; width: 260px; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
         .compass-dial { width: 100%; height: 100%; border-radius: 50%; position: absolute; transition: transform 0.1s ease-out; background-size: cover; background-position: center; }
+        
+        /* Fixed E and W position in SVG SVGs */
         .style-1 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23042119" stroke="%23ffd700" stroke-width="6"/><circle cx="150" cy="150" r="135" fill="none" stroke="%23ffd700" stroke-width="1.5" stroke-dasharray="4 4"/><text x="150" y="32" font-size="20" fill="%23ff5252" font-weight="bold" text-anchor="middle">N</text><text x="278" y="156" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">E</text><text x="150" y="282" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">S</text><text x="22" y="156" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">W</text></svg>'); }
         .style-2 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23011410" stroke="%2300e676" stroke-width="8"/><text x="150" y="36" font-size="22" fill="%2300e676" font-weight="bold" text-anchor="middle">N</text><text x="272" y="157" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">E</text><text x="150" y="278" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">S</text><text x="28" y="157" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">W</text></svg>'); }
-        .style-3 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23000000" stroke="%23222222" stroke-width="10"/><text x="150" y="32" font-size="18" fill="%23ff3366" font-weight="bold" text-anchor="middle">▲ N</text></svg>'); }
+        .style-3 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23000000" stroke="%23222222" stroke-width="10"/><text x="150" y="32" font-size="18" fill="%23ff3366" font-weight="bold" text-anchor="middle">▲ N</text><text x="278" y="156" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">E</text><text x="150" y="282" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">S</text><text x="22" y="156" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">W</text></svg>'); }
+        
         .compass-dial.aligned { box-shadow: 0 0 35px var(--accent-green) !important; }
         .qibla-pointer-layer { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; pointer-events: none; transition: transform 0.1s ease-out; }
         .kaaba-icon-img { position: absolute; top: 12px; width: 32px; height: 32px; background: #000; border: 2px solid var(--gold); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: var(--gold); font-size: 16px; }
@@ -170,14 +190,14 @@
 
 <div class="app-container">
 
-    <!-- Top Fixed Bar with Hamburger Icon -->
+    <!-- Top Fixed Bar -->
     <div class="top-navbar">
         <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
         <span class="app-title-nav" id="nav-title-text">ইসলামিক অ্যাপ</span>
         <i class="fas fa-kaaba" style="color: var(--accent-green);"></i>
     </div>
 
-    <!-- Sidebar Overlay & Drawer Menu -->
+    <!-- Sidebar Overlay & Drawer -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -211,12 +231,82 @@
         </div>
 
         <div id="prayer-list">
-            <div class="prayer-card"><div class="prayer-left"><button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button><span class="p-fajr">ফজর ✨</span></div><div class="prayer-right"><span class="time-text" id="time-fajr">--:-- am</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button></div></div>
-            <div class="prayer-card"><div class="prayer-left" style="margin-left: 34px;"><span class="p-sunrise">সূর্যোদয়</span></div><div class="prayer-right"><span class="time-text" id="time-sunrise">--:-- am</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-mute"></i></button></div></div>
-            <div class="prayer-card"><div class="prayer-left"><button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button><span class="p-dhuhr">যোহর ☀️</span></div><div class="prayer-right"><span class="time-text" id="time-dhuhr">--:-- pm</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button></div></div>
-            <div class="prayer-card"><div class="prayer-left"><button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button><span class="p-asr">আসর ⛅</span></div><div class="prayer-right"><span class="time-text" id="time-asr">--:-- pm</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button></div></div>
-            <div class="prayer-card"><div class="prayer-left"><button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button><span class="p-maghrib">মাগরিব 🌅</span></div><div class="prayer-right"><span class="time-text" id="time-maghrib">--:-- pm</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-bell"></i></button></div></div>
-            <div class="prayer-card"><div class="prayer-left"><button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button><span class="p-isha">ইশা 🌙</span></div><div class="prayer-right"><span class="time-text" id="time-isha">--:-- pm</span><button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-mute"></i></button></div></div>
+            <!-- Fajr -->
+            <div class="prayer-card" id="card-fajr">
+                <div class="prayer-left">
+                    <button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button>
+                    <span class="p-fajr">ফজর ✨</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-now" id="now-fajr">এখন <span id="now-time-fajr">--:--</span></span>
+                    <span class="badge-countdown" id="cd-fajr">in --</span>
+                    <span class="time-text" id="time-fajr">--:-- am</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button>
+                </div>
+            </div>
+            <!-- Sunrise -->
+            <div class="prayer-card" id="card-sunrise">
+                <div class="prayer-left" style="margin-left: 32px;">
+                    <span class="p-sunrise">সূর্যোদয়</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-countdown" id="cd-sunrise">in --</span>
+                    <span class="time-text" id="time-sunrise">--:-- am</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-mute"></i></button>
+                </div>
+            </div>
+            <!-- Dhuhr -->
+            <div class="prayer-card" id="card-dhuhr">
+                <div class="prayer-left">
+                    <button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button>
+                    <span class="p-dhuhr">যোহর ☀️</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-now" id="now-dhuhr">এখন <span id="now-time-dhuhr">--:--</span></span>
+                    <span class="badge-countdown" id="cd-dhuhr">in --</span>
+                    <span class="time-text" id="time-dhuhr">--:-- pm</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button>
+                </div>
+            </div>
+            <!-- Asr -->
+            <div class="prayer-card" id="card-asr">
+                <div class="prayer-left">
+                    <button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button>
+                    <span class="p-asr">আসর ⛅</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-now" id="now-asr">এখন <span id="now-time-asr">--:--</span></span>
+                    <span class="badge-countdown" id="cd-asr">in --</span>
+                    <span class="time-text" id="time-asr">--:-- pm</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-up"></i></button>
+                </div>
+            </div>
+            <!-- Maghrib -->
+            <div class="prayer-card" id="card-maghrib">
+                <div class="prayer-left">
+                    <button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button>
+                    <span class="p-maghrib">মাগরিব 🌅</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-now" id="now-maghrib">এখন <span id="now-time-maghrib">--:--</span></span>
+                    <span class="badge-countdown" id="cd-maghrib">in --</span>
+                    <span class="time-text" id="time-maghrib">--:-- pm</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-bell"></i></button>
+                </div>
+            </div>
+            <!-- Isha -->
+            <div class="prayer-card" id="card-isha">
+                <div class="prayer-left">
+                    <button class="check-btn" onclick="togglePrayerTrack(this)"><i class="fas fa-check"></i></button>
+                    <span class="p-isha">ইশা 🌙</span>
+                </div>
+                <div class="prayer-right">
+                    <span class="badge-now" id="now-isha">এখন <span id="now-time-isha">--:--</span></span>
+                    <span class="badge-countdown" id="cd-isha">in --</span>
+                    <span class="time-text" id="time-isha">--:-- pm</span>
+                    <button class="sound-btn" onclick="toggleSound(this)"><i class="fas fa-volume-mute"></i></button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -306,7 +396,7 @@
             </div>
         </div>
 
-        <!-- 10 SURAHS (FULLY FIXED ACCURATE TEXT) -->
+        <!-- 10 SURAHS -->
         <div class="sub-content-view" id="surah-view">
             <div class="dua-card">
                 <div class="card-header"><span class="card-title">১. সূরা আল-ফাতিহা</span></div>
@@ -383,7 +473,7 @@
             <div class="dua-card">
                 <div class="card-header"><span class="card-title">১০. সূরা আল-মাউন</span></div>
                 <div class="arabic-text">أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ ۞ فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ ۞ وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ ۞ فَوَيْلٌ لِّلْمُصَلِّينَ ۞ الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ ۞ الَّذِينَ هُمْ يُرَاءُونَ ۞ وَيَمْنَعُونَ الْمَاعُونَ</div>
-                <div class="transliteration"><b>উচ্চারণ:</b> আরাআইতাল্লাজি ইউকাজ্জিবু বিদ্দীন। ফাজালিকাল্লাজি ইয়াদুউল এতিম। ওয়া লা ইয়াহুদ্দু আলা তায়ামিল মিসকিন। ফাওয়াইলুল লিল মুসল্লিন। আল্লাজিনা হুম আন সালাতিহিম সাহুন। আল্লাজিনা হুম ইউরাউন। ওয়া ইয়ামনাউনাল মাউন।</div>
+                <div class="transliteration"><b>উচ্চারণ:</b> আরাআইتال্লাজি ইউকাজ্জিবু বিদ্দীন। ফাজালিকাল্লাজি ইয়াদুউল এতিম। ওয়া লা ইয়াহুদ্দু আলা তায়ামিল মিসকিন। ফাওয়াইলুল লিল মুসল্লিন। আল্লাজিনা হুম আন সালাতিহিম সাহুন। আল্লাজিনা হুম ইউরাউন। ওয়া ইয়ামনাউনাল মাউন।</div>
                 <div class="translation"><b>অর্থ:</b> আপনি কি দেখেছেন তাকে যে বিচারদিনকে অস্বীকার করে? সে তো ওই ব্যক্তি যে এতিমকে তাড়িয়ে দেয়, এবং মিসকিনকে অন্নদানে উৎসাহিত করে না। অতএব দুর্ভোগ সেই সালাত আদায়কারীদের জন্য, যারা নিজেদের সালাত সম্পর্কে উদাসীন। যারা লোকদেখানো কাজ করে, এবং নিত্যব্যবহার্য জিনিসপত্রদানে বাধা দেয়।</div>
                 <div class="card-actions"><button class="action-btn" onclick="readAloud(this)"><i class="fas fa-volume-up"></i> শুনুন</button><button class="action-btn" onclick="copyCardText(this)"><i class="fas fa-copy"></i> কপি</button></div>
             </div>
@@ -577,8 +667,10 @@
 
 <script>
     let currentLang = 'bn';
-    let currentSchool = 1; // 1 = Hanafi, 0 = Standard (Shafi, Maliki, Hanbali)
-    let userLat = 23.8103, userLng = 90.4125; // Default: Dhaka/Regional Standard
+    let currentSchool = 1; 
+    let userLat = 23.8103, userLng = 90.4125; 
+    let prayerTimings24 = {}; 
+    let timerInterval = null;
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('active');
@@ -608,7 +700,7 @@
         if (!str) return '';
         if (currentLang === 'en') return str;
         const enToBn = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
-        return str.replace(/[0-9]/g, match => enToBn[match]);
+        return str.toString().replace(/[0-9]/g, match => enToBn[match]);
     }
 
     let trackedCount = 0;
@@ -620,19 +712,15 @@
         document.getElementById('tracked-count').innerText = `${toBengaliNumerals(trackedCount.toString())}/${currentLang === 'bn' ? '৫ সম্পন্ন' : '5 Completed'}`;
     }
 
-    // ১২ ঘণ্টার ফরম্যাট ও বাংলা রূপান্তর
     function formatTime12(time24) {
         if(!time24) return "--:--";
-        let cleanTime = time24.split(' ')[0]; // Time cleaning (e.g. "05:15 (BDT)" -> "05:15")
+        let cleanTime = time24.split(' ')[0];
         let [hours, minutes] = cleanTime.split(':');
         hours = parseInt(hours, 10);
         const period = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12 || 12;
-        
         let formattedHours = hours < 10 ? '0' + hours : hours.toString();
-        let formattedTime = `${formattedHours}:${minutes} ${period}`;
-        
-        return toBengaliNumerals(formattedTime);
+        return toBengaliNumerals(`${formattedHours}:${minutes} ${period}`);
     }
 
     function toggleSound(btn) {
@@ -642,13 +730,100 @@
         else { icon.className = 'fas fa-volume-up'; btn.style.color = 'var(--accent-green)'; }
     }
 
-    // সময়সূচী লোড করার মূল ফাংশন (Method=1: Karachi Standard)
+    // Dynamic Active Prayer & Countdown System
+    function updatePrayerStatuses() {
+        if (!prayerTimings24.Fajr) return;
+
+        const now = new Date();
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+        const parseMinutes = (tStr) => {
+            if(!tStr) return 0;
+            const clean = tStr.split(' ')[0];
+            const [h, m] = clean.split(':').map(Number);
+            return h * 60 + m;
+        };
+
+        const fajrM = parseMinutes(prayerTimings24.Fajr);
+        const sunriseM = parseMinutes(prayerTimings24.Sunrise);
+        const dhuhrM = parseMinutes(prayerTimings24.Dhuhr);
+        const asrM = parseMinutes(prayerTimings24.Asr);
+        const maghribM = parseMinutes(prayerTimings24.Maghrib);
+        const ishaM = parseMinutes(prayerTimings24.Isha);
+
+        const list = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        
+        list.forEach(p => {
+            const card = document.getElementById(`card-${p}`);
+            if(card) card.classList.remove('active-prayer');
+            
+            const badgeNow = document.getElementById(`now-${p}`);
+            if(badgeNow) badgeNow.style.display = 'none';
+
+            const badgeCd = document.getElementById(`cd-${p}`);
+            if(badgeCd) badgeCd.style.display = 'none';
+        });
+
+        let activePrayer = '';
+        let nextPrayer = '';
+        let nextPrayerTimeM = 0;
+
+        if (nowMinutes >= fajrM && nowMinutes < sunriseM) {
+            activePrayer = 'fajr'; nextPrayer = 'sunrise'; nextPrayerTimeM = sunriseM;
+        } else if (nowMinutes >= sunriseM && nowMinutes < dhuhrM) {
+            activePrayer = ''; nextPrayer = 'dhuhr'; nextPrayerTimeM = dhuhrM;
+        } else if (nowMinutes >= dhuhrM && nowMinutes < asrM) {
+            activePrayer = 'dhuhr'; nextPrayer = 'asr'; nextPrayerTimeM = asrM;
+        } else if (nowMinutes >= asrM && nowMinutes < maghribM) {
+            activePrayer = 'asr'; nextPrayer = 'maghrib'; nextPrayerTimeM = maghribM;
+        } else if (nowMinutes >= maghribM && nowMinutes < ishaM) {
+            activePrayer = 'maghrib'; nextPrayer = 'isha'; nextPrayerTimeM = ishaM;
+        } else {
+            activePrayer = 'isha'; nextPrayer = 'fajr'; nextPrayerTimeM = fajrM + (24 * 60);
+        }
+
+        // Apply Active Badge
+        if (activePrayer) {
+            const card = document.getElementById(`card-${activePrayer}`);
+            if(card) card.classList.add('active-prayer');
+            
+            const badgeNow = document.getElementById(`now-${activePrayer}`);
+            const nowTimeTxt = document.getElementById(`now-time-${activePrayer}`);
+            if (badgeNow && nowTimeTxt) {
+                nowTimeTxt.innerText = formatTime12(prayerTimings24[activePrayer.charAt(0).toUpperCase() + activePrayer.slice(1)]);
+                badgeNow.style.display = 'inline-flex';
+            }
+        }
+
+        // Apply Countdown Badge
+        if (nextPrayer) {
+            let diffM = nextPrayerTimeM - nowMinutes;
+            if (diffM < 0) diffM += 24 * 60;
+
+            const hrs = Math.floor(diffM / 60);
+            const mins = diffM % 60;
+
+            let cdText = "in ";
+            if (hrs > 0) cdText += `${toBengaliNumerals(hrs)}h `;
+            cdText += `${toBengaliNumerals(mins)}m`;
+
+            const badgeCd = document.getElementById(`cd-${nextPrayer}`);
+            if (badgeCd) {
+                badgeCd.innerText = cdText;
+                badgeCd.style.display = 'inline-block';
+            }
+        }
+    }
+
+    // Load Times API
     function loadTimes(lat, lng) {
         fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1&school=${currentSchool}`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.data) {
                     const t = data.data.timings;
+                    prayerTimings24 = t;
+
                     document.getElementById('time-fajr').innerText = formatTime12(t.Fajr);
                     document.getElementById('time-sunrise').innerText = formatTime12(t.Sunrise);
                     document.getElementById('time-dhuhr').innerText = formatTime12(t.Dhuhr);
@@ -665,6 +840,10 @@
                         
                     const hData = data.data.date.hijri;
                     document.getElementById('hijri-date').innerText = `${toBengaliNumerals(hData.day.toString())} ${hData.month.ar} ${toBengaliNumerals(hData.year.toString())} ${currentLang==='bn'?'হিজরী':'Hijri'}`;
+
+                    updatePrayerStatuses();
+                    if(timerInterval) clearInterval(timerInterval);
+                    timerInterval = setInterval(updatePrayerStatuses, 30000);
                 }
             })
             .catch(err => console.error("Error loading prayer times:", err));
@@ -683,6 +862,8 @@
                 .then(data => {
                     if(data && data.data) {
                         const t = data.data.timings;
+                        prayerTimings24 = t;
+
                         document.getElementById('time-fajr').innerText = formatTime12(t.Fajr);
                         document.getElementById('time-sunrise').innerText = formatTime12(t.Sunrise);
                         document.getElementById('time-dhuhr').innerText = formatTime12(t.Dhuhr);
@@ -698,6 +879,8 @@
                             qiblaAngle = calculateQiblaDegree(userLat, userLng);
                             document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার দিক:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
                         }
+
+                        updatePrayerStatuses();
                         closeModal('locationModal');
                     } else {
                         alert(currentLang === 'bn' ? 'শহরের নাম পাওয়া যায়নি!' : 'City not found!');
@@ -757,7 +940,7 @@
                     loadTimes(userLat, userLng);
                 },
                 (err) => {
-                    console.warn("GPS Permission denied or unavailable. Using default location.");
+                    console.warn("GPS Permission denied or unavailable.");
                     loadTimes(userLat, userLng);
                 }
             );
@@ -770,9 +953,15 @@
         document.getElementById('compassDial').className = `compass-dial ${styleClass}`;
     }
 
+    // Compass motion with inverted alpha correction
     function handleMotion(event) {
         let heading = event.alpha || 0;
-        if (event.webkitCompassHeading) heading = event.webkitCompassHeading;
+        if (event.webkitCompassHeading) {
+            heading = event.webkitCompassHeading;
+        } else {
+            heading = 360 - event.alpha; // Fix direction inversion
+        }
+
         const dial = document.getElementById('compassDial');
         const pointer = document.getElementById('qiblaPointer');
         if (dial && pointer) {
