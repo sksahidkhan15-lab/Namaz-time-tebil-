@@ -577,8 +577,8 @@
 
 <script>
     let currentLang = 'bn';
-    let currentSchool = 1;
-    let userLat = 22.3039, userLng = 70.8022;
+    let currentSchool = 1; // 1 = Hanafi, 0 = Standard (Shafi, Maliki, Hanbali)
+    let userLat = 23.8103, userLng = 90.4125; // Default: Dhaka/Regional Standard
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('active');
@@ -605,7 +605,8 @@
     }
 
     function toBengaliNumerals(str) {
-        if(currentLang === 'en') return str;
+        if (!str) return '';
+        if (currentLang === 'en') return str;
         const enToBn = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
         return str.replace(/[0-9]/g, match => enToBn[match]);
     }
@@ -614,16 +615,24 @@
     function togglePrayerTrack(btn) {
         btn.classList.toggle('checked');
         trackedCount += btn.classList.contains('checked') ? 1 : -1;
+        if (trackedCount < 0) trackedCount = 0;
+        if (trackedCount > 5) trackedCount = 5;
         document.getElementById('tracked-count').innerText = `${toBengaliNumerals(trackedCount.toString())}/${currentLang === 'bn' ? '৫ সম্পন্ন' : '5 Completed'}`;
     }
 
+    // ১২ ঘণ্টার ফরম্যাট ও বাংলা রূপান্তর
     function formatTime12(time24) {
         if(!time24) return "--:--";
-        let [hours, minutes] = time24.split(':');
-        hours = parseInt(hours);
+        let cleanTime = time24.split(' ')[0]; // Time cleaning (e.g. "05:15 (BDT)" -> "05:15")
+        let [hours, minutes] = cleanTime.split(':');
+        hours = parseInt(hours, 10);
         const period = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12 || 12;
-        return toBengaliNumerals(`${hours}:${minutes} ${period}`);
+        
+        let formattedHours = hours < 10 ? '0' + hours : hours.toString();
+        let formattedTime = `${formattedHours}:${minutes} ${period}`;
+        
+        return toBengaliNumerals(formattedTime);
     }
 
     function toggleSound(btn) {
@@ -633,37 +642,46 @@
         else { icon.className = 'fas fa-volume-up'; btn.style.color = 'var(--accent-green)'; }
     }
 
+    // সময়সূচী লোড করার মূল ফাংশন (Method=1: Karachi Standard)
     function loadTimes(lat, lng) {
-        fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2&school=${currentSchool}`)
+        fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1&school=${currentSchool}`)
             .then(res => res.json())
             .then(data => {
-                const t = data.data.timings;
-                document.getElementById('time-fajr').innerText = formatTime12(t.Fajr);
-                document.getElementById('time-sunrise').innerText = formatTime12(t.Sunrise);
-                document.getElementById('time-dhuhr').innerText = formatTime12(t.Dhuhr);
-                document.getElementById('time-asr').innerText = formatTime12(t.Asr);
-                document.getElementById('time-maghrib').innerText = formatTime12(t.Maghrib);
-                document.getElementById('time-isha').innerText = formatTime12(t.Isha);
+                if (data && data.data) {
+                    const t = data.data.timings;
+                    document.getElementById('time-fajr').innerText = formatTime12(t.Fajr);
+                    document.getElementById('time-sunrise').innerText = formatTime12(t.Sunrise);
+                    document.getElementById('time-dhuhr').innerText = formatTime12(t.Dhuhr);
+                    document.getElementById('time-asr').innerText = formatTime12(t.Asr);
+                    document.getElementById('time-maghrib').innerText = formatTime12(t.Maghrib);
+                    document.getElementById('time-isha').innerText = formatTime12(t.Isha);
 
-                const dateObj = new Date();
-                const options = { month: 'long', day: 'numeric' };
-                document.getElementById('gregorian-date').innerText = currentLang === 'bn' ? `আজ, ${toBengaliNumerals(dateObj.toLocaleDateString('bn-BD', options))}` : `Today, ${dateObj.toLocaleDateString('en-US', options)}`;
-                document.getElementById('hijri-date').innerText = `${toBengaliNumerals(data.data.date.hijri.day)} ${data.data.date.hijri.month.ar} ${toBengaliNumerals(data.data.date.hijri.year)} ${currentLang==='bn'?'হিজরী':'Hijri'}`;
-            });
+                    const dateObj = new Date();
+                    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+                    
+                    document.getElementById('gregorian-date').innerText = currentLang === 'bn' 
+                        ? `আজ, ${toBengaliNumerals(dateObj.toLocaleDateString('bn-BD', options))}` 
+                        : `Today, ${dateObj.toLocaleDateString('en-US', options)}`;
+                        
+                    const hData = data.data.date.hijri;
+                    document.getElementById('hijri-date').innerText = `${toBengaliNumerals(hData.day.toString())} ${hData.month.ar} ${toBengaliNumerals(hData.year.toString())} ${currentLang==='bn'?'হিজরী':'Hijri'}`;
+                }
+            })
+            .catch(err => console.error("Error loading prayer times:", err));
     }
 
     function changeMazhab(val) {
-        currentSchool = parseInt(val);
+        currentSchool = parseInt(val, 10);
         loadTimes(userLat, userLng);
     }
 
     function saveManualLocation() {
-        const city = document.getElementById('cityInput').value;
+        const city = document.getElementById('cityInput').value.trim();
         if(city) {
-            fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=&method=2&school=${currentSchool}`)
+            fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=1&school=${currentSchool}`)
                 .then(res => res.json())
                 .then(data => {
-                    if(data.data) {
+                    if(data && data.data) {
                         const t = data.data.timings;
                         document.getElementById('time-fajr').innerText = formatTime12(t.Fajr);
                         document.getElementById('time-sunrise').innerText = formatTime12(t.Sunrise);
@@ -671,10 +689,21 @@
                         document.getElementById('time-asr').innerText = formatTime12(t.Asr);
                         document.getElementById('time-maghrib').innerText = formatTime12(t.Maghrib);
                         document.getElementById('time-isha').innerText = formatTime12(t.Isha);
+                        
                         document.getElementById('location-text').innerText = city;
+                        
+                        if(data.data.meta) {
+                            userLat = data.data.meta.latitude;
+                            userLng = data.data.meta.longitude;
+                            qiblaAngle = calculateQiblaDegree(userLat, userLng);
+                            document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার দিক:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
+                        }
                         closeModal('locationModal');
+                    } else {
+                        alert(currentLang === 'bn' ? 'শহরের নাম পাওয়া যায়নি!' : 'City not found!');
                     }
-                });
+                })
+                .catch(err => alert(currentLang === 'bn' ? 'নেটওয়ার্ক সমস্যা হয়েছে!' : 'Network error!'));
         }
     }
 
@@ -720,13 +749,20 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+                    userLat = pos.coords.latitude; 
+                    userLng = pos.coords.longitude;
                     qiblaAngle = calculateQiblaDegree(userLat, userLng);
                     document.getElementById('location-text').innerText = `GPS: (${userLat.toFixed(2)}°, ${userLng.toFixed(2)}°)`;
                     document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার দিক:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
                     loadTimes(userLat, userLng);
+                },
+                (err) => {
+                    console.warn("GPS Permission denied or unavailable. Using default location.");
+                    loadTimes(userLat, userLng);
                 }
             );
+        } else {
+            loadTimes(userLat, userLng);
         }
     }
 
@@ -739,15 +775,17 @@
         if (event.webkitCompassHeading) heading = event.webkitCompassHeading;
         const dial = document.getElementById('compassDial');
         const pointer = document.getElementById('qiblaPointer');
-        dial.style.transform = `rotate(${-heading}deg)`;
-        pointer.style.transform = `rotate(${qiblaAngle - heading}deg)`;
+        if (dial && pointer) {
+            dial.style.transform = `rotate(${-heading}deg)`;
+            pointer.style.transform = `rotate(${qiblaAngle - heading}deg)`;
 
-        const diff = Math.abs((heading - qiblaAngle + 360) % 360);
-        if (diff < 5 || diff > 355) {
-            dial.classList.add('aligned');
-            if (!isVibrated && navigator.vibrate) { navigator.vibrate([80, 40, 80]); isVibrated = true; }
-        } else {
-            dial.classList.remove('aligned'); isVibrated = false;
+            const diff = Math.abs((heading - qiblaAngle + 360) % 360);
+            if (diff < 5 || diff > 355) {
+                dial.classList.add('aligned');
+                if (!isVibrated && navigator.vibrate) { navigator.vibrate([80, 40, 80]); isVibrated = true; }
+            } else {
+                dial.classList.remove('aligned'); isVibrated = false;
+            }
         }
     }
 
@@ -785,7 +823,8 @@
     }
 
     function updateTasbeehUI() {
-        document.getElementById('countDisplay').innerText = toBengaliNumerals(count < 10 ? '0' + count : count.toString());
+        let formattedCount = count < 10 ? '0' + count : count.toString();
+        document.getElementById('countDisplay').innerText = toBengaliNumerals(formattedCount);
         document.getElementById('cycleText').innerText = toBengaliNumerals(cycle.toString()) + (currentLang==='bn'?' বার':' Times');
         document.getElementById('targetValue').innerText = toBengaliNumerals(target.toString());
     }
@@ -856,9 +895,8 @@
     }
 
     window.onload = function() {
-        loadTimes(userLat, userLng);
-        initSensors();
         requestGPSLocation();
+        initSensors();
     };
 </script>
 
