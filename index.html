@@ -790,7 +790,8 @@
             const badgeNow = document.getElementById(`now-${activePrayer}`);
             const nowTimeTxt = document.getElementById(`now-time-${activePrayer}`);
             if (badgeNow && nowTimeTxt) {
-                nowTimeTxt.innerText = formatTime12(prayerTimings24[activePrayer.charAt(0).toUpperCase() + activePrayer.slice(1)]);
+            nowTimeTxt.innerText = '';
+                
                 badgeNow.style.display = 'inline-flex';
             }
         }
