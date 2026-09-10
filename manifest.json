@@ -1,0 +1,12 @@
+{
+  "short_name": "Namaz App",
+  "name": "Islamic Prayer Times",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}
