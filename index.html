@@ -789,6 +789,13 @@
         btn.classList.add('active');
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
+
+        // কেবল কিবলা ট্যাবে গেলেই সেন্সর অন হবে, অন্যথায় বন্ধ হয়ে যাবে
+        if (tabId === 'tab-qibla') {
+            initSensors();
+        } else {
+            stopSensors();
+        }
     }
 
     function toBengaliNumerals(str) {
@@ -1103,10 +1110,23 @@
 
     function initSensors() {
         if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            DeviceOrientationEvent.requestPermission().then(res => { if (res === 'granted') window.addEventListener('deviceorientation', handleMotion, true); });
+            DeviceOrientationEvent.requestPermission().then(res => { 
+                if (res === 'granted') {
+                    window.removeEventListener('deviceorientation', handleMotion, true);
+                    window.addEventListener('deviceorientation', handleMotion, true);
+                }
+            });
         } else {
+            window.removeEventListener('deviceorientation', handleMotion, true);
             window.addEventListener('deviceorientation', handleMotion, true);
         }
+    }
+
+    function stopSensors() {
+        window.removeEventListener('deviceorientation', handleMotion, true);
+        isVibrated = false;
+        const dial = document.getElementById('compassDial');
+        if (dial) dial.classList.remove('aligned');
     }
 
     let count = 0, cycle = 1, target = 33, audioMode = 0;
@@ -1209,7 +1229,8 @@
     window.onload = function() {
         initAzanSettings();
         requestGPSLocation();
-        initSensors();
+        // সূচনাতে কিবলা ট্যাবে না থাকায় সেন্সর বন্ধ থাকবে
+        stopSensors(); 
     };
 </script>
 
