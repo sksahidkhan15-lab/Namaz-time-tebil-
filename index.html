@@ -98,6 +98,7 @@
             width: 100%; background: var(--accent-green); color: #000; border: none;
             padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
+        .toggle-container { display: flex; justify-content: space-between; align-items: center; }
 
         /* 1. PRAYER TIMES & TRACKER */
         .date-card { margin-bottom: 15px; }
@@ -205,7 +206,7 @@
             <button class="close-sidebar" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
         </div>
         <ul class="sidebar-menu">
-            <li class="menu-item" onclick="openModal('settingsModal')"><i class="fas fa-cog"></i> <span class="lang-txt-settings">সেটিংস (ভাষা ও মাযহাব)</span></li>
+            <li class="menu-item" onclick="openModal('settingsModal')"><i class="fas fa-cog"></i> <span class="lang-txt-settings">সেটিংস (ভাষা, আজান ও মাযহাব)</span></li>
             <li class="menu-item" onclick="openModal('locationModal')"><i class="fas fa-map-marker-alt"></i> <span class="lang-txt-location">ম্যানুয়াল লোকেশন</span></li>
             <li class="menu-item" onclick="openModal('aboutModal')"><i class="fas fa-info-circle"></i> <span class="lang-txt-about">আমাদের সম্পর্কে (About)</span></li>
             <li class="menu-item" onclick="shareApp()"><i class="fas fa-share-alt"></i> <span class="lang-txt-share">অ্যাপ শেয়ার করুন</span></li>
@@ -214,6 +215,9 @@
             <li class="menu-item" onclick="openModal('contactModal')"><i class="fas fa-envelope"></i> <span class="lang-txt-contact">যোগাযোগ (Contact)</span></li>
         </ul>
     </div>
+
+    <!-- Hidden Audio Player for Azan -->
+    <audio id="azanPlayer"></audio>
 
     <!-- ================= 1. PRAYER TIMES & TRACKER ================= -->
     <div id="tab-prayer" class="tab-content active">
@@ -581,6 +585,32 @@
                     <option value="0">শাাফেয়ী, মালেকী, হাম্বলী (Standard Asr)</option>
                 </select>
             </div>
+            
+            <!-- Azan Voice Selection -->
+            <div class="setting-group">
+                <label>আজানের কারী নির্বাচন করুন</label>
+                <select class="setting-select" id="azanVoiceSelect" onchange="changeAzanVoice(this.value)">
+                    <option value="abdulbaset">Abdul Baset</option>
+                    <option value="alimulla">Alimulla</option>
+                    <option value="alqatami">Al Qatami</option>
+                    <option value="aserehy">Aserehy</option>
+                    <option value="joshar">Joshar</option>
+                </select>
+            </div>
+
+            <!-- Test Sound Button -->
+            <div class="setting-group">
+                <button class="q-btn" style="width:100%; padding:10px; font-weight:bold;" id="testSoundBtn" onclick="toggleTestSound()">
+                    <i class="fas fa-play"></i> সাউন্ড টেস্ট করুন
+                </button>
+            </div>
+
+            <!-- Notification Toggle -->
+            <div class="setting-group toggle-container">
+                <label style="margin:0;">আজান নোটিফিকেশন</label>
+                <input type="checkbox" id="notificationToggle" onchange="toggleNotifications(this.checked)" checked style="accent-color: var(--accent-green); width: 18px; height: 18px;">
+            </div>
+
             <button class="save-btn" onclick="closeModal('settingsModal')">ঠিক আছে</button>
         </div>
     </div>
@@ -634,7 +664,7 @@
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('privacyModal')"></i>
             </div>
             <p style="font-size:12px; color:var(--text-sub); line-height:1.6;">
-                আমরা ব্যবহারকারীর গোপনীয়তাকে সর্বোচ্চ প্রাধান্য দিই। আপনার জিপিএস লোকেশন শুধুমাত্র সালাতের সময় এবং কিবলা কম্পাস সঠিকভাবে হিসাব করার জন্য ব্যবহৃত হয়। কোনো ব্যক্তিগত ডেটা থার্ড-পার্টির সাথে শেয়ার করা হয় না।
+                আমরা ব্যবহারকারীর গোপনীয়তাকে সর্বোচ্চ প্রাধান্য দিই। আপনার জিপিএস লোকেশন শুধুমাত্র সালাতের সময় এবং কিবলা কম্পাস সঠিকভাবে হিসাব করার জন্য ব্যবহৃত হয়। কোনো ব্যক্তিগত ডেটা থার্ড-পার্টি এর সাথে শেয়ার করা হয় না।
             </p>
         </div>
     </div>
@@ -672,6 +702,70 @@
     let prayerTimings24 = {}; 
     let timerInterval = null;
 
+    // Azan Sound & Notification Settings
+    const soundFolderPath = "assets/sounds/";
+    let selectedAzanVoice = localStorage.getItem("selectedAzanVoice") || "abdulbaset";
+    let notificationsEnabled = localStorage.getItem("notificationsEnabled") !== "false";
+    let azanPlayedToday = {};
+
+    const azanPlayer = document.getElementById("azanPlayer");
+
+    function initAzanSettings() {
+        document.getElementById("azanVoiceSelect").value = selectedAzanVoice;
+        document.getElementById("notificationToggle").checked = notificationsEnabled;
+
+        if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+            Notification.requestPermission();
+        }
+    }
+
+    function changeAzanVoice(val) {
+        selectedAzanVoice = val;
+        localStorage.setItem("selectedAzanVoice", selectedAzanVoice);
+    }
+
+    function toggleNotifications(enabled) {
+        notificationsEnabled = enabled;
+        localStorage.setItem("notificationsEnabled", notificationsEnabled);
+        if (notificationsEnabled && "Notification" in window && Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    }
+
+    function playAzanSound(prayerName) {
+        let fileName = (prayerName.toLowerCase() === "fajr") ? `${selectedAzanVoice}_fajr.mp3` : `${selectedAzanVoice}.mp3`;
+        azanPlayer.src = `${soundFolderPath}${fileName}`;
+        azanPlayer.play().catch(err => console.log("Audio waiting for user interaction:", err));
+    }
+
+    function stopAzanSound() {
+        azanPlayer.pause();
+        azanPlayer.currentTime = 0;
+        const btn = document.getElementById("testSoundBtn");
+        if(btn) btn.innerHTML = `<i class="fas fa-play"></i> সাউন্ড টেস্ট করুন`;
+    }
+
+    function toggleTestSound() {
+        const btn = document.getElementById("testSoundBtn");
+        if (azanPlayer.paused) {
+            playAzanSound("dhuhr");
+            btn.innerHTML = `<i class="fas fa-square"></i> থামান`;
+        } else {
+            stopAzanSound();
+        }
+    }
+
+    function triggerAzanNotification(prayerName) {
+        if (notificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+            let names = { fajr: "ফজর", dhuhr: "যোহর", asr: "আসর", maghrib: "মাগরিব", isha: "ইশা" };
+            let pBn = names[prayerName] || prayerName;
+            new Notification("আজানের সময় হয়েছে", {
+                body: `${pBn} নামাজের সময় হয়ে গেছে।`,
+                icon: "assets/icons/mosque.png"
+            });
+        }
+    }
+
     function openSidebar() {
         document.getElementById('sidebar').classList.add('active');
         document.getElementById('sidebarOverlay').classList.add('active');
@@ -687,6 +781,7 @@
     }
     function closeModal(id) {
         document.getElementById(id).classList.remove('active');
+        if (id === 'settingsModal') stopAzanSound();
     }
 
     function switchMainTab(tabId, btn) {
@@ -735,6 +830,9 @@
         if (!prayerTimings24.Fajr) return;
 
         const now = new Date();
+        const nowHours = String(now.getHours()).padStart(2, '0');
+        const nowMins = String(now.getMinutes()).padStart(2, '0');
+        const currentTimeStr = `${nowHours}:${nowMins}`;
         const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
         const parseMinutes = (tStr) => {
@@ -782,6 +880,31 @@
             activePrayer = 'isha'; nextPrayer = 'fajr'; nextPrayerTimeM = fajrM + (24 * 60);
         }
 
+        // Check if exact prayer time hit for Azan & Notification Trigger
+        const mainPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        mainPrayers.forEach(p => {
+            let key = p.charAt(0).toUpperCase() + p.slice(1);
+            if (prayerTimings24[key]) {
+                let pTime = prayerTimings24[key].split(' ')[0];
+                if (currentTimeStr === pTime && !azanPlayedToday[p]) {
+                    azanPlayedToday[p] = true;
+                    playAzanSound(p);
+                    triggerAzanNotification(p);
+                }
+            }
+        });
+
+        // Reset Azan trigger state on new minute clear
+        mainPrayers.forEach(p => {
+            let key = p.charAt(0).toUpperCase() + p.slice(1);
+            if (prayerTimings24[key]) {
+                let pTime = prayerTimings24[key].split(' ')[0];
+                if (currentTimeStr !== pTime) {
+                    azanPlayedToday[p] = false;
+                }
+            }
+        });
+
         // Apply Active Badge
         if (activePrayer) {
             const card = document.getElementById(`card-${activePrayer}`);
@@ -790,8 +913,7 @@
             const badgeNow = document.getElementById(`now-${activePrayer}`);
             const nowTimeTxt = document.getElementById(`now-time-${activePrayer}`);
             if (badgeNow && nowTimeTxt) {
-            nowTimeTxt.innerText = '';
-                
+                nowTimeTxt.innerText = '';
                 badgeNow.style.display = 'inline-flex';
             }
         }
@@ -844,7 +966,7 @@
 
                     updatePrayerStatuses();
                     if(timerInterval) clearInterval(timerInterval);
-                    timerInterval = setInterval(updatePrayerStatuses, 30000);
+                    timerInterval = setInterval(updatePrayerStatuses, 10000);
                 }
             })
             .catch(err => console.error("Error loading prayer times:", err));
@@ -1085,6 +1207,7 @@
     }
 
     window.onload = function() {
+        initAzanSettings();
         requestGPSLocation();
         initSensors();
     };
