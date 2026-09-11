@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="manifest" href="manifest.json">
-
     <title>ইসলামিক অল-ইন-ওয়ান অ্যাপ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -110,7 +106,6 @@
         .hijri-title { font-size: 14px; color: var(--text-sub); margin-top: 2px; }
         .tracker-banner { background: linear-gradient(135deg, #0a4034, #052b22); border: 1px solid var(--card-border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* Prayer Card & Status Styles */
         .prayer-card { 
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; 
             padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
@@ -128,7 +123,6 @@
         .check-btn.checked { background: var(--accent-green); border-color: var(--accent-green); color: #000; }
         .sound-btn { background: transparent; border: none; color: var(--text-sub); font-size: 15px; cursor: pointer; }
 
-        /* Badges */
         .badge-now {
             background: #ffffff; color: #000000; font-size: 11px; font-weight: 700;
             padding: 3px 8px; border-radius: 6px; display: none; align-items: center; gap: 4px;
@@ -161,7 +155,6 @@
         .compass-wrapper { position: relative; width: 260px; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
         .compass-dial { width: 100%; height: 100%; border-radius: 50%; position: absolute; transition: transform 0.1s ease-out; background-size: cover; background-position: center; }
         
-        /* Fixed E and W position in SVG SVGs */
         .style-1 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23042119" stroke="%23ffd700" stroke-width="6"/><circle cx="150" cy="150" r="135" fill="none" stroke="%23ffd700" stroke-width="1.5" stroke-dasharray="4 4"/><text x="150" y="32" font-size="20" fill="%23ff5252" font-weight="bold" text-anchor="middle">N</text><text x="278" y="156" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">E</text><text x="150" y="282" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">S</text><text x="22" y="156" font-size="18" fill="%23ffd700" font-weight="bold" text-anchor="middle">W</text></svg>'); }
         .style-2 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23011410" stroke="%2300e676" stroke-width="8"/><text x="150" y="36" font-size="22" fill="%2300e676" font-weight="bold" text-anchor="middle">N</text><text x="272" y="157" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">E</text><text x="150" y="278" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">S</text><text x="28" y="157" font-size="18" fill="%23ffffff" font-weight="bold" text-anchor="middle">W</text></svg>'); }
         .style-3 { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="145" fill="%23000000" stroke="%23222222" stroke-width="10"/><text x="150" y="32" font-size="18" fill="%23ff3366" font-weight="bold" text-anchor="middle">▲ N</text><text x="278" y="156" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">E</text><text x="150" y="282" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">S</text><text x="22" y="156" font-size="16" fill="%23ffffff" font-weight="bold" text-anchor="middle">W</text></svg>'); }
@@ -326,8 +319,8 @@
         </div>
 
         <div class="main-tabs">
-            <button class="main-tab-btn active" id="btn-dua-tab" onclick="switchDuaTab('dua-view', this, '১০টি ছোট দোয়া')">১০টি ছোট দোয়া</button>
-            <button class="main-tab-btn" id="btn-surah-tab" onclick="switchDuaTab('surah-view', this, '১০টি ছোট সূরা')">১০টি ছোট সূরা</button>
+            <button class="main-tab-btn active" id="btn-dua-tab" onclick="switchDuaTab('dua-view', this, currentLang === 'bn' ? '১০টি ছোট দোয়া' : '10 Short Duas')">১০টি ছোট দোয়া</button>
+            <button class="main-tab-btn" id="btn-surah-tab" onclick="switchDuaTab('surah-view', this, currentLang === 'bn' ? '১০টি ছোট সূরা' : '10 Short Surahs')">১০টি ছোট সূরা</button>
         </div>
 
         <!-- 10 DUAS -->
@@ -335,7 +328,7 @@
             <div class="dua-card">
                 <div class="card-header"><span class="card-title">১. বিপদ থেকে মুক্তির দোয়া</span></div>
                 <div class="arabic-text">لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ</div>
-                <div class="transliteration"><b>উচ্চারণ:</b> লা ইলাহা ইল্লা আন্তা সুবহানাকা ইন্নি কুন্তু মিনাজ জ্বালিমীন।</div>
+                <div class="transliteration"><b>উচ্চারণ:</b> লা ইলাহা ইল্লা আন্তা সুবহানাকা ইন্নি কুнету মিনাজ জ্বালিমীন।</div>
                 <div class="translation"><b>অর্থ:</b> তুমি ছাড়া কোনো ইলাহ নেই, তুমি পবিত্র! নিশ্চয়ই আমি সীমালঙ্ঘনকারীদের অন্তর্ভুক্ত ছিলাম।</div>
                 <div class="card-actions"><button class="action-btn" onclick="readAloud(this)"><i class="fas fa-volume-up"></i> শুনুন</button><button class="action-btn" onclick="copyCardText(this)"><i class="fas fa-copy"></i> কপি</button></div>
             </div>
@@ -510,16 +503,16 @@
             </div>
 
             <div class="btn-group">
-                <button class="q-btn" onclick="requestGPSLocation()"><i class="fas fa-crosshairs"></i> GPS অন করুন</button>
-                <button class="q-btn" onclick="initSensors()"><i class="fas fa-rotate"></i> সেন্সর রিফ্রেশ</button>
+                <button class="q-btn" id="btn-gps" onclick="requestGPSLocation()"><i class="fas fa-crosshairs"></i> GPS অন করুন</button>
+                <button class="q-btn" id="btn-sensor" onclick="initSensors()"><i class="fas fa-rotate"></i> সেন্সর রিফ্রেশ</button>
             </div>
 
             <div style="text-align: center; width: 100%;">
-                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">কম্পাস থিম নির্বাচন করুন</div>
+                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;" id="lbl-theme">কম্পাস থিম নির্বাচন করুন</div>
                 <div style="display:flex; justify-content:center; gap:8px;">
-                    <button class="q-btn" onclick="changeDesign('style-1', this)">রয়েল গোল্ড</button>
-                    <button class="q-btn" onclick="changeDesign('style-2', this)">মেটালিক গ্রিন</button>
-                    <button class="q-btn" onclick="changeDesign('style-3', this)">ডার্ক লক্স</button>
+                    <button class="q-btn" id="btn-theme-1" onclick="changeDesign('style-1', this)">রয়েল গোল্ড</button>
+                    <button class="q-btn" id="btn-theme-2" onclick="changeDesign('style-2', this)">মেটালিক গ্রিন</button>
+                    <button class="q-btn" id="btn-theme-3" onclick="changeDesign('style-3', this)">ডার্ক লক্স</button>
                 </div>
             </div>
         </div>
@@ -530,7 +523,7 @@
         <div class="tasbeeh-area" onclick="countTasbeeh()">
             <div class="tasbeeh-header" onclick="event.stopPropagation();">
                 <div class="btn-circle" onclick="resetCounter()"><i class="fas fa-rotate-right"></i></div>
-                <h2 style="font-size: 18px;">ডিজিটাল তাসবীহ</h2>
+                <h2 style="font-size: 18px;" id="title-tasbeeh">ডিজিটাল তাসবীহ</h2>
                 <div class="btn-circle" id="modeBtn" onclick="toggleAudioMode()"><i class="fas fa-volume-high" style="color: var(--accent-green);"></i></div>
             </div>
 
@@ -548,12 +541,12 @@
                 </div>
             </div>
 
-            <div style="text-align: center; font-size: 12px; color: var(--text-sub);">গণনা করতে যেকোনো স্থানে ট্যাপ করুন</div>
+            <div style="text-align: center; font-size: 12px; color: var(--text-sub);" id="lbl-tap-hint">গণনা করতে যেকোনো স্থানে ট্যাপ করুন</div>
 
             <div class="zikr-card" onclick="event.stopPropagation();">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div style="font-size: 16px; font-weight: 700; color: var(--accent-green);" id="zikrName">সুবহানাল্লাহ</div>
-                    <button style="background: rgba(0,230,118,0.1); color: var(--accent-green); border:none; padding:4px 10px; border-radius:10px; font-size:11px;" onclick="openZikrModal()">জিকির পাল্টান</button>
+                    <button style="background: rgba(0,230,118,0.1); color: var(--accent-green); border:none; padding:4px 10px; border-radius:10px; font-size:11px;" id="btn-change-zikr" onclick="openZikrModal()">জিকির পাল্টান</button>
                 </div>
                 <div style="font-size:12px; color:var(--text-sub); margin-top:2px;" id="zikrMeaning">আল্লাহর পবিত্রতা ঘোষণা করা</div>
             </div>
@@ -585,14 +578,14 @@
             <div class="setting-group">
                 <label id="lbl-mazhab">মাযহাব / ফিকাহ (Asr Time Standard)</label>
                 <select class="setting-select" id="mazhabSelect" onchange="changeMazhab(this.value)">
-                    <option value="1">হানাফী (Hanafi - Late Asr)</option>
-                    <option value="0">শাাফেয়ী, মালেকী, হাম্বলী (Standard Asr)</option>
+                    <option value="1" id="opt-hanafi">হানাফী (Hanafi - Late Asr)</option>
+                    <option value="0" id="opt-standard">শাাফেয়ী, মালেকী, হাম্বলী (Standard Asr)</option>
                 </select>
             </div>
             
             <!-- Azan Voice Selection -->
             <div class="setting-group">
-                <label>আজানের কারী নির্বাচন করুন</label>
+                <label id="lbl-azan-voice">আজানের কারী নির্বাচন করুন</label>
                 <select class="setting-select" id="azanVoiceSelect" onchange="changeAzanVoice(this.value)">
                     <option value="abdulbaset">Abdul Baset</option>
                     <option value="alimulla">Alimulla</option>
@@ -605,17 +598,17 @@
             <!-- Test Sound Button -->
             <div class="setting-group">
                 <button class="q-btn" style="width:100%; padding:10px; font-weight:bold;" id="testSoundBtn" onclick="toggleTestSound()">
-                    <i class="fas fa-play"></i> সাউন্ড টেস্ট করুন
+                    <i class="fas fa-play"></i> <span id="lbl-test-sound">সাউন্ড টেস্ট করুন</span>
                 </button>
             </div>
 
             <!-- Notification Toggle -->
             <div class="setting-group toggle-container">
-                <label style="margin:0;">আজান নোটিফিকেশন</label>
+                <label style="margin:0;" id="lbl-notification">আজান নোটিফিকেশন</label>
                 <input type="checkbox" id="notificationToggle" onchange="toggleNotifications(this.checked)" checked style="accent-color: var(--accent-green); width: 18px; height: 18px;">
             </div>
 
-            <button class="save-btn" onclick="closeModal('settingsModal')">ঠিক আছে</button>
+            <button class="save-btn" id="btn-save-settings" onclick="closeModal('settingsModal')">ঠিক আছে</button>
         </div>
     </div>
 
@@ -626,20 +619,20 @@
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('locationModal')"></i>
             </div>
             <div class="setting-group">
-                <label>আপনার শহর বা জেলার নাম (English)</label>
+                <label id="lbl-city-input">আপনার শহর বা জেলার নাম (English)</label>
                 <input type="text" class="setting-input" id="cityInput" placeholder="e.g. Dhaka, Chittagong, Kolkata">
             </div>
-            <button class="save-btn" onclick="saveManualLocation()">সেভ করুন</button>
+            <button class="save-btn" id="btn-save-location" onclick="saveManualLocation()">সেভ করুন</button>
         </div>
     </div>
 
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>আমাদের সম্পর্কে (About)</h3>
+                <h3 id="about-title-txt">আমাদের সম্পর্কে (About)</h3>
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('aboutModal')"></i>
             </div>
-            <p style="font-size:13px; color:var(--text-sub); line-height:1.6;">
+            <p style="font-size:13px; color:var(--text-sub); line-height:1.6;" id="about-desc-txt">
                 এই ইসলামিক অ্যাপটি আপনার দৈনন্দিন ইবাদত সহজ করার জন্য তৈরি করা হয়েছে। এখানে নিখুঁত নামাজের সময়সূচী, দোয়া-সূরা, সঠিক কিবলা দিক এবং ডিজিটাল তাসবীহ সুবিধাসমূহ এক জায়গায় রয়েছে।<br><br>
                 <b>ভার্সন:</b> ১.০.০<br>
                 <b>ডেভেলপার:</b> ইসলামিক অ্যাপস টিম
@@ -650,24 +643,24 @@
     <div class="modal" id="feedbackModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>মতামত দিন (Feedback)</h3>
+                <h3 id="feedback-title-txt">মতামত দিন (Feedback)</h3>
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('feedbackModal')"></i>
             </div>
             <div class="setting-group">
-                <label>আপনার মতামত বা অভিজ্ঞতা লিখুন</label>
-                <textarea class="setting-input" rows="4" placeholder="আপনার ভালোলাগা বা পরামর্শ এখানে লিখুন..."></textarea>
+                <label id="lbl-feedback">আপনার মতামত বা অভিজ্ঞতা লিখুন</label>
+                <textarea class="setting-input" rows="4" id="feedbackInput" placeholder="আপনার ভালোলাগা বা পরামর্শ এখানে লিখুন..."></textarea>
             </div>
-            <button class="save-btn" onclick="alert('ধন্যবাদ! আপনার মতামত গ্রহণ করা হয়েছে।'); closeModal('feedbackModal');">পাঠিয়ে দিন</button>
+            <button class="save-btn" id="btn-send-feedback" onclick="alert(currentLang==='bn'?'ধন্যবাদ! আপনার মতামত গ্রহণ করা হয়েছে।':'Thank you! Your feedback has been received.'); closeModal('feedbackModal');">পাঠিয়ে দিন</button>
         </div>
     </div>
 
     <div class="modal" id="privacyModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>গোপনীয়তা নীতি (Privacy)</h3>
+                <h3 id="privacy-title-txt">গোপনীয়তা নীতি (Privacy)</h3>
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('privacyModal')"></i>
             </div>
-            <p style="font-size:12px; color:var(--text-sub); line-height:1.6;">
+            <p style="font-size:12px; color:var(--text-sub); line-height:1.6;" id="privacy-desc-txt">
                 আমরা ব্যবহারকারীর গোপনীয়তাকে সর্বোচ্চ প্রাধান্য দিই। আপনার জিপিএস লোকেশন শুধুমাত্র সালাতের সময় এবং কিবলা কম্পাস সঠিকভাবে হিসাব করার জন্য ব্যবহৃত হয়। কোনো ব্যক্তিগত ডেটা থার্ড-পার্টি এর সাথে শেয়ার করা হয় না।
             </p>
         </div>
@@ -676,10 +669,10 @@
     <div class="modal" id="contactModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>যোগাযোগ (Contact Us)</h3>
+                <h3 id="contact-title-txt">যোগাযোগ (Contact Us)</h3>
                 <i class="fas fa-times" style="cursor:pointer;" onclick="closeModal('contactModal')"></i>
             </div>
-            <p style="font-size:13px; color:var(--text-sub); line-height:1.6;">
+            <p style="font-size:13px; color:var(--text-sub); line-height:1.6;" id="contact-desc-txt">
                 যেকোনো প্রয়োজন বা পরামর্শের জন্য আমাদের ইমেইল করতে পারেন:<br><br>
                 <i class="fas fa-envelope" style="color:var(--accent-green)"></i> support@islamicapp.com
             </p>
@@ -688,19 +681,19 @@
 
     <div class="modal" id="zikrModal">
         <div class="modal-content">
-            <div style="text-align:center; font-weight:bold; margin-bottom:12px;">জিকির নির্বাচন করুন</div>
-            <div class="zikr-item" onclick="selectZikr('সুবহানাল্লাহ', 'আল্লাহর পবিত্রতা ঘোষণা করা')"><div style="color:var(--accent-green); font-weight:bold;">সুবহানাল্লাহ</div></div>
-            <div class="zikr-item" onclick="selectZikr('আলহামদুলিল্লাহ', 'আল্লাহর সমস্ত প্রশংসা')"><div style="color:var(--accent-green); font-weight:bold;">আলহামদুলিল্লাহ</div></div>
-            <div class="zikr-item" onclick="selectZikr('আল্লাহু আকবার', 'আল্লাহ সর্বশ্রেষ্ঠ')"><div style="color:var(--accent-green); font-weight:bold;">আল্লাহু আকবার</div></div>
-            <div class="zikr-item" onclick="selectZikr('লা ইলাহা ইল্লাল্লাহ', 'আল্লাহ ছাড়া কোনো উপাস্য নেই')"><div style="color:var(--accent-green); font-weight:bold;">লা ইলাহা ইল্লাল্লাহ</div></div>
-            <button class="save-btn" onclick="closeModal('zikrModal')">বন্ধ করুন</button>
+            <div style="text-align:center; font-weight:bold; margin-bottom:12px;" id="zikr-select-title">জিকির নির্বাচন করুন</div>
+            <div class="zikr-item" onclick="selectZikr(currentLang==='bn'?'সুবহানাল্লাহ':'SubhanAllah', currentLang==='bn'?'আল্লাহর পবিত্রতা ঘোষণা করা':'Glory be to Allah')"><div style="color:var(--accent-green); font-weight:bold;" id="zk-1">সুবহানাল্লাহ</div></div>
+            <div class="zikr-item" onclick="selectZikr(currentLang==='bn'?'আলহামদুলিল্লাহ':'Alhamdulillah', currentLang==='bn'?'আল্লাহর সমস্ত প্রশংসা':'Praise be to Allah')"><div style="color:var(--accent-green); font-weight:bold;" id="zk-2">আলহামদুলিল্লাহ</div></div>
+            <div class="zikr-item" onclick="selectZikr(currentLang==='bn'?'আল্লাহু আকবার':'Allahu Akbar', currentLang==='bn'?'আল্লাহ সর্বশ্রেষ্ঠ':'Allah is the Greatest')"><div style="color:var(--accent-green); font-weight:bold;" id="zk-3">আল্লাহু আকবার</div></div>
+            <div class="zikr-item" onclick="selectZikr(currentLang==='bn'?'লা ইলাহা ইল্লাল্লাহ':'La ilaha illallah', currentLang==='bn'?'আল্লাহ ছাড়া কোনো উপাস্য নেই':'There is no god but Allah')"><div style="color:var(--accent-green); font-weight:bold;" id="zk-4">লা ইলাহা ইল্লাল্লাহ</div></div>
+            <button class="save-btn" id="btn-close-zikr" onclick="closeModal('zikrModal')">বন্ধ করুন</button>
         </div>
     </div>
 
 </div>
 
 <script>
-    let currentLang = 'bn';
+    let currentLang = localStorage.getItem('appLang') || 'bn';
     let currentSchool = 1; 
     let userLat = 23.8103, userLng = 90.4125; 
     let prayerTimings24 = {}; 
@@ -745,15 +738,15 @@
     function stopAzanSound() {
         azanPlayer.pause();
         azanPlayer.currentTime = 0;
-        const btn = document.getElementById("testSoundBtn");
-        if(btn) btn.innerHTML = `<i class="fas fa-play"></i> সাউন্ড টেস্ট করুন`;
+        const btn = document.getElementById("lbl-test-sound");
+        if(btn) btn.innerText = currentLang === 'bn' ? "সাউন্ড টেস্ট করুন" : "Test Sound";
     }
 
     function toggleTestSound() {
-        const btn = document.getElementById("testSoundBtn");
+        const btn = document.getElementById("lbl-test-sound");
         if (azanPlayer.paused) {
             playAzanSound("dhuhr");
-            btn.innerHTML = `<i class="fas fa-square"></i> থামান`;
+            if(btn) btn.innerText = currentLang === 'bn' ? "থামান" : "Stop";
         } else {
             stopAzanSound();
         }
@@ -761,10 +754,12 @@
 
     function triggerAzanNotification(prayerName) {
         if (notificationsEnabled && "Notification" in window && Notification.permission === "granted") {
-            let names = { fajr: "ফজর", dhuhr: "যোহর", asr: "আসর", maghrib: "মাগরিব", isha: "ইশা" };
-            let pBn = names[prayerName] || prayerName;
-            new Notification("আজানের সময় হয়েছে", {
-                body: `${pBn} নামাজের সময় হয়ে গেছে।`,
+            let names = currentLang === 'bn' 
+                ? { fajr: "ফজর", dhuhr: "যোহর", asr: "আসর", maghrib: "মাগরিব", isha: "ইশা" }
+                : { fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" };
+            let pName = names[prayerName] || prayerName;
+            new Notification(currentLang === 'bn' ? "আজানের সময় হয়েছে" : "Time for Prayer", {
+                body: currentLang === 'bn' ? `${pName} নামাজের সময় হয়ে গেছে।` : `It's time for ${pName} prayer.`,
                 icon: "assets/icons/mosque.png"
             });
         }
@@ -794,7 +789,6 @@
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
 
-        // কেবল কিবলা ট্যাবে গেলেই সেন্সর অন হবে, অন্যথায় বন্ধ হয়ে যাবে
         if (tabId === 'tab-qibla') {
             initSensors();
         } else {
@@ -804,7 +798,7 @@
 
     function toBengaliNumerals(str) {
         if (!str) return '';
-        if (currentLang === 'en') return str;
+        if (currentLang === 'en') return str.toString();
         const enToBn = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
         return str.toString().replace(/[0-9]/g, match => enToBn[match]);
     }
@@ -836,7 +830,6 @@
         else { icon.className = 'fas fa-volume-up'; btn.style.color = 'var(--accent-green)'; }
     }
 
-    // Dynamic Active Prayer & Countdown System
     function updatePrayerStatuses() {
         if (!prayerTimings24.Fajr) return;
 
@@ -891,7 +884,6 @@
             activePrayer = 'isha'; nextPrayer = 'fajr'; nextPrayerTimeM = fajrM + (24 * 60);
         }
 
-        // Check if exact prayer time hit for Azan & Notification Trigger
         const mainPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
         mainPrayers.forEach(p => {
             let key = p.charAt(0).toUpperCase() + p.slice(1);
@@ -905,7 +897,6 @@
             }
         });
 
-        // Reset Azan trigger state on new minute clear
         mainPrayers.forEach(p => {
             let key = p.charAt(0).toUpperCase() + p.slice(1);
             if (prayerTimings24[key]) {
@@ -916,7 +907,6 @@
             }
         });
 
-        // Apply Active Badge
         if (activePrayer) {
             const card = document.getElementById(`card-${activePrayer}`);
             if(card) card.classList.add('active-prayer');
@@ -929,7 +919,6 @@
             }
         }
 
-        // Apply Countdown Badge
         if (nextPrayer) {
             let diffM = nextPrayerTimeM - nowMinutes;
             if (diffM < 0) diffM += 24 * 60;
@@ -949,7 +938,6 @@
         }
     }
 
-    // Load Times API
     function loadTimes(lat, lng) {
         fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1&school=${currentSchool}`)
             .then(res => res.json())
@@ -1011,7 +999,7 @@
                             userLat = data.data.meta.latitude;
                             userLng = data.data.meta.longitude;
                             qiblaAngle = calculateQiblaDegree(userLat, userLng);
-                            document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার দিক:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
+                            document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার কোণ:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
                         }
 
                         updatePrayerStatuses();
@@ -1070,7 +1058,7 @@
                     userLng = pos.coords.longitude;
                     qiblaAngle = calculateQiblaDegree(userLat, userLng);
                     document.getElementById('location-text').innerText = `GPS: (${userLat.toFixed(2)}°, ${userLng.toFixed(2)}°)`;
-                    document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার দিক:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
+                    document.getElementById('angleDisplay').innerText = `${currentLang==='bn'?'কিবলার কোণ:':'Qibla Angle:'} ${Math.round(qiblaAngle)}°`;
                     loadTimes(userLat, userLng);
                 },
                 (err) => {
@@ -1087,13 +1075,12 @@
         document.getElementById('compassDial').className = `compass-dial ${styleClass}`;
     }
 
-    // Compass motion with inverted alpha correction
     function handleMotion(event) {
         let heading = event.alpha || 0;
         if (event.webkitCompassHeading) {
             heading = event.webkitCompassHeading;
         } else {
-            heading = 360 - event.alpha; // Fix direction inversion
+            heading = 360 - event.alpha;
         }
 
         const dial = document.getElementById('compassDial');
@@ -1155,6 +1142,10 @@
         count++;
         if (count > target) { count = 1; cycle++; }
         else playBeadSound();
+        
+        if (audioMode === 1 && navigator.vibrate) {
+            navigator.vibrate(40);
+        }
         updateTasbeehUI();
     }
 
@@ -1172,71 +1163,226 @@
     function toggleAudioMode() {
         audioMode = (audioMode + 1) % 3;
         const btn = document.getElementById('modeBtn');
-        if (audioMode === 0) btn.innerHTML = `<i class="fas fa-volume-high" style="color: var(--accent-green);"></i>`;
-        else if (audioMode === 1) btn.innerHTML = `<i class="fas fa-vibrate" style="color: #d97706;"></i>`;
-        else btn.innerHTML = `<i class="fas fa-volume-xmark" style="color: #ef4444;"></i>`;
+        if (audioMode === 0) {
+            btn.innerHTML = `<i class="fas fa-volume-high" style="color: var(--accent-green);"></i>`;
+        } else if (audioMode === 1) {
+            btn.innerHTML = `<i class="fas fa-vibrator" style="color: var(--accent-green);"></i>`;
+        } else {
+            btn.innerHTML = `<i class="fas fa-volume-xmark" style="color: var(--text-sub);"></i>`;
+        }
     }
 
     function openZikrModal() { openModal('zikrModal'); }
+
     function selectZikr(name, meaning) {
         document.getElementById('zikrName').innerText = name;
         document.getElementById('zikrMeaning').innerText = meaning;
-        closeModal('zikrModal'); resetCounter();
+        closeModal('zikrModal');
+        resetCounter();
     }
 
     function shareApp() {
-        closeSidebar();
         if (navigator.share) {
-            navigator.share({ title: 'ইসলামিক অ্যাপ', text: 'এই চমৎকার ইসলামিক অল-ইন-ওয়ান অ্যাপটি ব্যবহার করুন!', url: window.location.href });
+            navigator.share({ title: currentLang==='bn'?'ইসলামিক অ্যাপ':'Islamic App', url: window.location.href });
         } else {
-            navigator.clipboard.writeText(window.location.href);
-            alert(currentLang==='bn'?'অ্যাপ লিঙ্ক কপি করা হয়েছে!':'App link copied to clipboard!');
+            alert(currentLang === 'bn' ? 'শেয়ার অপশন এই ব্রাউজারে সাপোর্টেড নয়।' : 'Sharing not supported in this browser.');
         }
     }
 
     function changeLanguage(lang) {
         currentLang = lang;
+        localStorage.setItem('appLang', lang);
+        document.getElementById('langSelect').value = lang;
+
         if(lang === 'en') {
-            document.getElementById('nav-title-text').innerText = "Islamic App";
-            document.getElementById('menu-header-txt').innerText = "Menu & Settings";
-            document.querySelector('.lang-txt-settings').innerText = "Settings (Language & Mazhab)";
-            document.querySelector('.lang-txt-location').innerText = "Manual Location";
-            document.querySelector('.lang-txt-about').innerText = "About Us";
-            document.querySelector('.lang-txt-share').innerText = "Share App";
-            document.querySelector('.lang-txt-feedback').innerText = "Feedback";
-            document.querySelector('.lang-txt-privacy').innerText = "Privacy Policy";
-            document.querySelector('.lang-txt-contact').innerText = "Contact Us";
+            document.getElementById('nav-title-text').innerText = 'Islamic App';
+            document.getElementById('menu-header-txt').innerText = 'Menu & Settings';
+            document.getElementById('set-title-txt').innerText = 'App Settings';
+            document.getElementById('lbl-lang').innerText = 'Change Language';
+            document.getElementById('lbl-mazhab').innerText = 'Mazhab / Fiqh (Asr Time Standard)';
+            document.getElementById('opt-hanafi').innerText = 'Hanafi (Late Asr)';
+            document.getElementById('opt-standard').innerText = 'Shafi, Maliki, Hanbali (Standard Asr)';
+            document.getElementById('lbl-azan-voice').innerText = 'Select Azan Reciter';
+            document.getElementById('lbl-test-sound').innerText = 'Test Sound';
+            document.getElementById('lbl-notification').innerText = 'Azan Notification';
+            document.getElementById('btn-save-settings').innerText = 'OK';
 
-            document.querySelector('.nav-txt-prayer').innerText = "Prayer";
-            document.querySelector('.nav-txt-dua').innerText = "Dua & Surah";
-            document.querySelector('.nav-txt-qibla').innerText = "Qibla";
-            document.querySelector('.nav-txt-tasbeeh').innerText = "Tasbeeh";
+            document.getElementById('loc-title-txt').innerText = 'Set Manual Location';
+            document.getElementById('lbl-city-input').innerText = 'City or District Name (English)';
+            document.getElementById('cityInput').placeholder = 'e.g. Dhaka, Chittagong, Kolkata';
+            document.getElementById('btn-save-location').innerText = 'Save Location';
 
-            document.querySelector('.lang-txt-tracker').innerText = "Daily Prayer Tracker";
-            document.querySelector('.p-fajr').innerText = "Fajr ✨";
-            document.querySelector('.p-sunrise').innerText = "Sunrise";
-            document.querySelector('.p-dhuhr').innerText = "Dhuhr ☀️";
-            document.querySelector('.p-asr').innerText = "Asr ⛅";
-            document.querySelector('.p-maghrib').innerText = "Maghrib 🌅";
-            document.querySelector('.p-isha').innerText = "Isha 🌙";
+            document.getElementById('about-title-txt').innerText = 'About Us';
+            document.getElementById('about-desc-txt').innerHTML = 'This Islamic app is designed to facilitate your daily worship. Here you will find accurate prayer schedules, Duas, Surahs, Qibla compass, and a Digital Tasbeeh all in one place.<br><br><b>Version:</b> 1.0.0<br><b>Developer:</b> Islamic Apps Team';
 
-            document.getElementById('btn-dua-tab').innerText = "10 Short Duas";
-            document.getElementById('btn-surah-tab').innerText = "10 Short Surahs";
-            document.getElementById('header-title').innerText = "10 Short Duas";
+            document.getElementById('feedback-title-txt').innerText = 'Feedback';
+            document.getElementById('lbl-feedback').innerText = 'Write your thoughts or suggestions';
+            document.getElementById('feedbackInput').placeholder = 'Share your experience here...';
+            document.getElementById('btn-send-feedback').innerText = 'Send Feedback';
+
+            document.getElementById('privacy-title-txt').innerText = 'Privacy Policy';
+            document.getElementById('privacy-desc-txt').innerText = 'We prioritize your privacy. Your GPS location is used solely to accurately calculate prayer times and the Qibla compass. No personal data is shared with third parties.';
+
+            document.getElementById('contact-title-txt').innerText = 'Contact Us';
+            document.getElementById('contact-desc-txt').innerHTML = 'For any inquiries or suggestions, feel free to email us:<br><br><i class="fas fa-envelope" style="color:var(--accent-green)"></i> support@islamicapp.com';
+
+            document.querySelector('.lang-txt-settings').innerText = 'Settings';
+            document.querySelector('.lang-txt-location').innerText = 'Manual Location';
+            document.querySelector('.lang-txt-about').innerText = 'About Us';
+            document.querySelector('.lang-txt-share').innerText = 'Share App';
+            document.querySelector('.lang-txt-feedback').innerText = 'Feedback';
+            document.querySelector('.lang-txt-privacy').innerText = 'Privacy Policy';
+            document.querySelector('.lang-txt-contact').innerText = 'Contact Us';
+
+            document.querySelector('.nav-txt-prayer').innerText = 'Prayer';
+            document.querySelector('.nav-txt-dua').innerText = 'Dua & Surah';
+            document.querySelector('.nav-txt-qibla').innerText = 'Qibla';
+            document.querySelector('.nav-txt-tasbeeh').innerText = 'Tasbeeh';
+
+            document.querySelector('.lang-txt-tracker').innerText = "Today's Prayer Tracker";
+            
+            document.querySelector('.p-fajr').innerText = 'Fajr ✨';
+            document.querySelector('.p-sunrise').innerText = 'Sunrise';
+            document.querySelector('.p-dhuhr').innerText = 'Dhuhr ☀️';
+            document.querySelector('.p-asr').innerText = 'Asr ⛅';
+            document.querySelector('.p-maghrib').innerText = 'Maghrib 🌅';
+            document.querySelector('.p-isha').innerText = 'Isha 🌙';
+
+            ['fajr','dhuhr','asr','maghrib','isha'].forEach(p => {
+                let badge = document.getElementById(`now-${p}`);
+                if(badge) badge.childNodes[0].nodeValue = "Now ";
+            });
+
+            document.getElementById('btn-dua-tab').innerText = '10 Short Duas';
+            document.getElementById('btn-surah-tab').innerText = '10 Short Surahs';
+            let activeDuaTab = document.getElementById('btn-dua-tab').classList.contains('active');
+            document.getElementById('header-title').innerText = activeDuaTab ? '10 Short Duas' : '10 Short Surahs';
+
+            document.getElementById('btn-gps').innerHTML = '<i class="fas fa-crosshairs"></i> Turn On GPS';
+            document.getElementById('btn-sensor').innerHTML = '<i class="fas fa-rotate"></i> Refresh Sensor';
+            document.getElementById('lbl-theme').innerText = 'Select Compass Theme';
+            document.getElementById('btn-theme-1').innerText = 'Royal Gold';
+            document.getElementById('btn-theme-2').innerText = 'Metallic Green';
+            document.getElementById('btn-theme-3').innerText = 'Dark Luxe';
+            document.getElementById('statusInstruction').innerText = 'Point your phone towards the Kaaba icon';
+
+            document.getElementById('title-tasbeeh').innerText = 'Digital Tasbeeh';
+            document.getElementById('lbl-tap-hint').innerText = 'Tap anywhere on the screen to count';
+            document.getElementById('btn-change-zikr').innerText = 'Change Zikr';
+
+            document.getElementById('zikr-select-title').innerText = 'Select Zikr';
+            document.getElementById('zk-1').innerText = 'SubhanAllah';
+            document.getElementById('zk-2').innerText = 'Alhamdulillah';
+            document.getElementById('zk-3').innerText = 'Allahu Akbar';
+            document.getElementById('zk-4').innerText = 'La ilaha illallah';
+            document.getElementById('btn-close-zikr').innerText = 'Close';
+
+            let curZikr = document.getElementById('zikrName').innerText;
+            if(curZikr === 'সুবহানাল্লাহ') selectZikr('SubhanAllah', 'Glory be to Allah');
+            else if(curZikr === 'আলহামদুলিল্লাহ') selectZikr('Alhamdulillah', 'Praise be to Allah');
+            else if(curZikr === 'আল্লাহু আকবার') selectZikr('Allahu Akbar', 'Allah is the Greatest');
+            else if(curZikr === 'লা ইলাহা ইল্লাল্লাহ') selectZikr('La ilaha illallah', 'There is no god but Allah');
+
         } else {
-            location.reload();
+            document.getElementById('nav-title-text').innerText = 'ইসলামিক অ্যাপ';
+            document.getElementById('menu-header-txt').innerText = 'মেনু ও সেটিং';
+            document.getElementById('set-title-txt').innerText = 'অ্যাপ সেটিংস';
+            document.getElementById('lbl-lang').innerText = 'ভাষা পরিবর্তন (Language)';
+            document.getElementById('lbl-mazhab').innerText = 'মাযহাব / ফিকাহ (Asr Time Standard)';
+            document.getElementById('opt-hanafi').innerText = 'হানাফী (Hanafi - Late Asr)';
+            document.getElementById('opt-standard').innerText = 'শাাফেয়ী, মালেকী, হাম্বলী (Standard Asr)';
+            document.getElementById('lbl-azan-voice').innerText = 'আজানের কারী নির্বাচন করুন';
+            document.getElementById('lbl-test-sound').innerText = 'সাউন্ড টেস্ট করুন';
+            document.getElementById('lbl-notification').innerText = 'আজান নোটিফিকেশন';
+            document.getElementById('btn-save-settings').innerText = 'ঠিক আছে';
+
+            document.getElementById('loc-title-txt').innerText = 'ম্যানুয়াল লোকেশন সেট করুন';
+            document.getElementById('lbl-city-input').innerText = 'আপনার শহর বা জেলার নাম (English)';
+            document.getElementById('cityInput').placeholder = 'e.g. Dhaka, Chittagong, Kolkata';
+            document.getElementById('btn-save-location').innerText = 'সেভ করুন';
+
+            document.getElementById('about-title-txt').innerText = 'আমাদের সম্পর্কে (About)';
+            document.getElementById('about-desc-txt').innerHTML = 'এই ইসলামিক অ্যাপটি আপনার দৈনন্দিন ইবাদত সহজ করার জন্য তৈরি করা হয়েছে। এখানে নিখুঁত নামাজের সময়সূচী, দোয়া-সূরা, সঠিক কিবলা দিক এবং ডিজিটাল তাসবীহ সুবিধাসমূহ এক জায়গায় রয়েছে।<br><br><b>ভার্সন:</b> ১.০.০<br><b>ডেভেলপার:</b> ইসলামিক অ্যাপস টিম';
+
+            document.getElementById('feedback-title-txt').innerText = 'মতামত দিন (Feedback)';
+            document.getElementById('lbl-feedback').innerText = 'আপনার মতামত বা অভিজ্ঞতা লিখুন';
+            document.getElementById('feedbackInput').placeholder = 'আপনার ভালোলাগা বা পরামর্শ এখানে লিখুন...';
+            document.getElementById('btn-send-feedback').innerText = 'পাঠিয়ে দিন';
+
+            document.getElementById('privacy-title-txt').innerText = 'গোপনীয়তা নীতি (Privacy)';
+            document.getElementById('privacy-desc-txt').innerText = 'আমরা ব্যবহারকারীর গোপনীয়তাকে সর্বোচ্চ প্রাধান্য দিই। আপনার জিপিএস লোকেশন শুধুমাত্র সালাতের সময় এবং কিবলা কম্পাস সঠিকভাবে হিসাব করার জন্য ব্যবহৃত হয়। কোনো ব্যক্তিগত ডেটা থার্ড-পার্টি এর সাথে শেয়ার করা হয় না।';
+
+            document.getElementById('contact-title-txt').innerText = 'যোগাযোগ (Contact Us)';
+            document.getElementById('contact-desc-txt').innerHTML = 'যেকোনো প্রয়োজন বা পরামর্শের জন্য আমাদের ইমেইল করতে পারেন:<br><br><i class="fas fa-envelope" style="color:var(--accent-green)"></i> support@islamicapp.com';
+
+            document.querySelector('.lang-txt-settings').innerText = 'সেটিংস (ভাষা, আজান ও মাযহাব)';
+            document.querySelector('.lang-txt-location').innerText = 'ম্যানুয়াল লোকেশন';
+            document.querySelector('.lang-txt-about').innerText = 'আমাদের সম্পর্কে (About)';
+            document.querySelector('.lang-txt-share').innerText = 'অ্যাপ শেয়ার করুন';
+            document.querySelector('.lang-txt-feedback').innerText = 'ফিডব্যাক / মতামত';
+            document.querySelector('.lang-txt-privacy').innerText = 'গোপনীয়তা নীতি (Privacy)';
+            document.querySelector('.lang-txt-contact').innerText = 'যোগাযোগ (Contact)';
+
+            document.querySelector('.nav-txt-prayer').innerText = 'সময়সূচী';
+            document.querySelector('.nav-txt-dua').innerText = 'দোয়া ও সূরা';
+            document.querySelector('.nav-txt-qibla').innerText = 'কিবলা';
+            document.querySelector('.nav-txt-tasbeeh').innerText = 'তাসবীহ';
+
+            document.querySelector('.lang-txt-tracker').innerText = 'আজকের নামাজ ট্র্যাকার';
+
+            document.querySelector('.p-fajr').innerText = 'ফজর ✨';
+            document.querySelector('.p-sunrise').innerText = 'সূর্যোদয়';
+            document.querySelector('.p-dhuhr').innerText = 'যোহর ☀️';
+            document.querySelector('.p-asr').innerText = 'আসর ⛅';
+            document.querySelector('.p-maghrib').innerText = 'মাগরিব 🌅';
+            document.querySelector('.p-isha').innerText = 'ইশা 🌙';
+
+            ['fajr','dhuhr','asr','maghrib','isha'].forEach(p => {
+                let badge = document.getElementById(`now-${p}`);
+                if(badge) badge.childNodes[0].nodeValue = "এখন ";
+            });
+
+            document.getElementById('btn-dua-tab').innerText = '১০টি ছোট দোয়া';
+            document.getElementById('btn-surah-tab').innerText = '১০টি ছোট সূরা';
+            let activeDuaTab = document.getElementById('btn-dua-tab').classList.contains('active');
+            document.getElementById('header-title').innerText = activeDuaTab ? '১০টি ছোট দোয়া' : '১০টি ছোট সূরা';
+
+            document.getElementById('btn-gps').innerHTML = '<i class="fas fa-crosshairs"></i> GPS অন করুন';
+            document.getElementById('btn-sensor').innerHTML = '<i class="fas fa-rotate"></i> সেন্সর রিফ্রেশ';
+            document.getElementById('lbl-theme').innerText = 'কম্পাস থিম নির্বাচন করুন';
+            document.getElementById('btn-theme-1').innerText = 'রয়েল গোল্ড';
+            document.getElementById('btn-theme-2').innerText = 'মেটালিক গ্রিন';
+            document.getElementById('btn-theme-3').innerText = 'ডার্ক লক্স';
+            document.getElementById('statusInstruction').innerText = 'কাবার আইকনটির দিকে ফোনটি ঘোরান';
+
+            document.getElementById('title-tasbeeh').innerText = 'ডিজিটাল তাসবীহ';
+            document.getElementById('lbl-tap-hint').innerText = 'গণনা করতে যেকোনো স্থানে ট্যাপ করুন';
+            document.getElementById('btn-change-zikr').innerText = 'জিকির পাল্টান';
+
+            document.getElementById('zikr-select-title').innerText = 'জিকির নির্বাচন করুন';
+            document.getElementById('zk-1').innerText = 'সুবহানাল্লাহ';
+            document.getElementById('zk-2').innerText = 'আলহামদুলিল্লাহ';
+            document.getElementById('zk-3').innerText = 'আল্লাহু আকবার';
+            document.getElementById('zk-4').innerText = 'লা ইলাহা ইল্লাল্লাহ';
+            document.getElementById('btn-close-zikr').innerText = 'বন্ধ করুন';
+
+            let curZikr = document.getElementById('zikrName').innerText;
+            if(curZikr === 'SubhanAllah') selectZikr('সুবহানাল্লাহ', 'আল্লাহর পবিত্রতা ঘোষণা করা');
+            else if(curZikr === 'Alhamdulillah') selectZikr('আলহামদুলিল্লাহ', 'আল্লাহর সমস্ত প্রশংসা');
+            else if(curZikr === 'Allahu Akbar') selectZikr('আল্লাহু আকবার', 'আল্লাহ সর্বশ্রেষ্ঠ');
+            else if(curZikr === 'La ilaha illallah') selectZikr('লা ইলাহা ইল্লাল্লাহ', 'আল্লাহ ছাড়া কোনো উপাস্য নেই');
         }
+
         loadTimes(userLat, userLng);
         updateTasbeehUI();
     }
 
+    // Initialization
     window.onload = function() {
         initAzanSettings();
+        changeLanguage(currentLang);
         requestGPSLocation();
-        // সূচনাতে কিবলা ট্যাবে না থাকায় সেন্সর বন্ধ থাকবে
-        stopSensors(); 
     };
 </script>
-
 </body>
 </html>
