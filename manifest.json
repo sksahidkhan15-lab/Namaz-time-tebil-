@@ -1,12 +1,21 @@
 {
-  "short_name": "Namaz App",
-  "name": "Islamic Prayer Times",
+  "short_name": "IslamicApp",
+  "name": "Islamic Prayer & Qibla App",
   "icons": [
     {
-      "src": "icon.png",
-      "type": "image/png"
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone"
+  "background_color": "#ffffff",
+  "theme_color": "#008069",
+  "display": "standalone",
+  "orientation": "portrait"
 }
