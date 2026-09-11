@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Manifest Link -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008069">
+
+<script>
+  // Service Worker Registration for Offline Use
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker Registered Successfully!'))
+        .catch(err => console.log('Service Worker Registration Failed:', err));
+    });
+  }
+</script>
+
     <title>ইসলামিক অল-ইন-ওয়ান অ্যাপ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1382,7 +1397,23 @@
         initAzanSettings();
         changeLanguage(currentLang);
         requestGPSLocation();
+        loadSettings();
     };
+    // ১. তাসবিহ বা লোকেশন সেভ করার নিয়ম
+function saveSettings(locationData) {
+  localStorage.setItem('user_location', JSON.stringify(locationData));
+}
+
+// ২. অ্যাপ চালুর সময় অফলাইন থেকে ডাটা রিড করা
+function loadSettings() {
+  const savedLocation = localStorage.getItem('user_location');
+  if (savedLocation) {
+    const data = JSON.parse(savedLocation);
+    console.log("Offline Saved Location Loaded:", data);
+    // এই ডাটা দিয়ে নমাজের সময় ক্যালকুলেট করুন
+  }
+}
+
 </script>
 </body>
 </html>
