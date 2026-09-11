@@ -1174,7 +1174,7 @@
         count = 0; cycle = 1; updateTasbeehUI();
     }
 
-    function toggleAudioMode() {
+    function toggleAudioMode(prayerName) {
         audioMode = (audioMode + 1) % 3;
         const btn = document.getElementById('modeBtn');
         if (audioMode === 0) {
@@ -1184,6 +1184,10 @@
         } else {
             btn.innerHTML = `<i class="fas fa-volume-xmark" style="color: var(--text-sub);"></i>`;
         }
+        // আপনার সাউন্ড আইকন ক্লিক ইভেন্টের ভেতরে বসান
+
+savePrayerAudioSettings(prayerName || 'default', audioMode);
+
     }
 
     function openZikrModal() { openModal('zikrModal'); }
@@ -1397,6 +1401,7 @@
         changeLanguage(currentLang);
         requestGPSLocation();
         loadSettings();
+        loadPrayerAudioSettings();
     };
     // ১. তাসবিহ বা লোকেশন সেভ করার নিয়ম
 function saveSettings(locationData) {
@@ -1411,6 +1416,24 @@ function loadSettings() {
     console.log("Offline Saved Location Loaded:", data);
     // এই ডাটা দিয়ে নমাজের সময় ক্যালকুলেট করুন
   }
+}
+// ওয়াক্তের নাম এবং তার সাউন্ড স্টেট (true/false) সেভ করার জন্য
+function savePrayerAudioSettings(prayerName, isMuted) {
+    // আগের সেভ হওয়া অবজেক্ট তুলে আনা বা নতুন তৈরি করা
+    let audioSettings = JSON.parse(localStorage.getItem('prayer_audio_settings')) || {};
+    
+    // নির্দিষ্ট ওয়াক্তের স্টেট সেট করা
+    audioSettings[prayerName] = isMuted; // e.g., 'Fajr': true
+    
+    // localStorage-এ আপডেট সেভ করা
+    localStorage.setItem('prayer_audio_settings', JSON.stringify(audioSettings));
+}
+// সেভ থাকা সাউন্ড স্টেট লোড করার ফাংশন
+function loadPrayerAudioSettings() {
+    let audioSettings = JSON.parse(localStorage.getItem('prayer_audio_settings'));
+    if (audioSettings) {
+        console.log("Audio Settings Loaded:", audioSettings);
+    }
 }
 
 </script>
